@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--card:#0d0d0d;--ink:#f5f3ee;--muted:#8d8a82;--line:#242424;--accent:#d4b77a;--chip:#161616;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,sans-serif}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top{max-width:1400px;margin:auto;padding:14px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.logo{font:600 28px 'Cormorant Garamond',serif;letter-spacing:.06em;cursor:pointer;white-space:nowrap}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;padding:12px 16px 12px 42px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;outline:none}
+.search input:focus{border-color:var(--ink)}
+.search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.5}
+.seg{display:flex;background:var(--chip);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;color:var(--muted);padding:8px 14px;border-radius:999px;font:500 13px Inter;cursor:pointer}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px #0002}
+.cats{max-width:1400px;margin:auto;padding:0 16px 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:999px;font:500 13px Inter;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--accent);color:#000;border-color:var(--accent)}
+.logo{color:var(--accent)}.card .b{color:var(--accent)}.brand:hover,.search input:focus{border-color:var(--accent)!important}
+.btn{background:var(--accent)!important;border-color:var(--accent)!important;color:#000!important}.btn.o{background:none!important;color:var(--accent)!important}
+.seg button.on{background:var(--accent)!important;color:#000!important}
+.chip small{opacity:.55;margin-left:4px}
+main{max-width:1400px;margin:auto;padding:20px 16px 60px}
+h1{font:600 clamp(30px,5vw,46px) 'Cormorant Garamond',serif;margin:6px 0 4px}
+.sub{color:var(--muted);margin-bottom:18px}
+.brands{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.brand{container-type:inline-size;position:relative;aspect-ratio:4/3;background:#000;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.2s;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:12px;text-align:center}
+.brand:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 0 0 1px var(--accent)}
+.brand .logo-i{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12% 18% 34%}
+.brand .logo-i img{max-width:100%;max-height:100%;object-fit:contain;filter:brightness(0) invert(1)}
+.brand .logo-i img.keep{filter:none}.brand.w b{visibility:hidden;height:0}
+.brand .wm{font:600 clamp(20px,3.2vw,30px) 'Cormorant Garamond',serif;color:var(--ink);letter-spacing:.08em;text-transform:uppercase;line-height:1.08;overflow-wrap:normal;word-break:keep-all;hyphens:none}
+.brand b,.brand span{position:relative;z-index:1}
+.brand b{display:block;font:500 13px Inter;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}.brand span{color:#5d5b55;font-size:11px}
+.letter{font:600 13px Inter;color:var(--muted);margin:22px 0 8px;letter-spacing:.1em}
+.types{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+@media(max-width:600px){.grid{grid-template-columns:1fr 1fr;gap:10px}.brands{grid-template-columns:1fr 1fr}.top{gap:10px}.logo{font-size:23px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s}
+.card:hover{box-shadow:0 8px 24px #0001;transform:translateY(-2px)}
+.card .ph{aspect-ratio:3/4;background:var(--chip);overflow:hidden}.card img{width:100%;height:100%;object-fit:cover;display:block}
+.card .in{padding:10px 12px 12px}.card .b{font:600 12px Inter;letter-spacing:.08em;text-transform:uppercase}
+.card .t{font-size:14px}.card .n{color:var(--muted);font-size:12px;margin-top:2px}
+.more{display:block;margin:26px auto;padding:12px 26px}
+.empty{color:var(--muted);text-align:center;padding:60px 0}
+.back{border:0;background:none;color:var(--muted);cursor:pointer;font:inherit;padding:0}
+dialog{border:0;border-radius:18px;padding:0;max-width:min(860px,94vw);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:#000a}.dl{display:grid;grid-template-columns:1.1fr 1fr}
+@media(max-width:700px){.dl{grid-template-columns:1fr}}
+.dl img{width:100%;height:100%;max-height:80vh;object-fit:contain;background:var(--chip)}
+.dl .info{padding:26px}.dl h2{font:600 32px 'Cormorant Garamond',serif;margin:0 0 4px}
+.dl dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:18px 0}.dl dt{color:var(--muted)}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:999px;font:500 14px Inter;cursor:pointer}
+.btn.o{background:none;color:var(--ink)}.x{position:absolute;top:10px;right:12px;border:0;background:var(--card);border-radius:50%;width:34px;height:34px;font-size:20px;cursor:pointer;color:var(--ink)}
+.search input{padding-right:48px}.cam{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--accent);width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cam:hover{background:var(--chip)}.qimg{display:flex;gap:16px;align-items:center;margin:6px 0 18px}.qimg img{width:90px;height:110px;object-fit:cover;border-radius:10px;border:1px solid var(--accent)}
+.match{position:absolute;top:8px;left:8px;background:#000c;color:var(--accent);font:600 11px Inter;padding:3px 8px;border-radius:999px}.card{position:relative}
+</style>
+</head>
+<body>
+<header>
+ <div class="top">
+  <div class="logo" onclick="go({brand:null,type:null,q:'',cat:'Todo'});q.value=''" id="logo">CATALOG</div>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+   <input id="q"><button class="cam" id="camBtn" title="Search by photo" onclick="pic.click()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+   <input type="file" id="pic" accept="image/*" hidden></div>
+  <div class="seg" id="gender"></div>
+  <div class="seg" id="lang"></div>
+ </div>
+ <div class="cats" id="cats"></div>
+</header>
+<main id="main"></main>
+<dialog id="dlg"></dialog>
+<script src="data.js"></script>
+<script>
+const C=window.CATALOG,G=["Hombre","Mujer","Unisex","Niños"],OTHER="Otras marcas";
+let LANG="en";try{LANG=localStorage.getItem("lang")||"en"}catch(e){}
+const UI={
+ en:{logo:"CATALOG",ph:"Search brand, item, team or number… (e.g. “gucci bag”, “nike sneakers”)",brands:"Brands",products:"products",pick:"choose a brand",allBrands:"← All brands",all:"All",none:"No products found. Try another word.",more:"Show more",left:"remaining",no:"Product No.",for:"For",cat:"Category",copy:"Copy product No.",copied:"Copied!",moreOf:"More from",noShort:"No.",photo:"Photo search",photoSub:"Most similar products to your photo",best:"Best match",loading:"Analyzing photo…",exact:"Exact match",similar:"Similar"},
+ es:{logo:"CATÁLOGO",ph:"Busca marca, prenda, equipo o número… (ej. “gucci bolsa”, “tenis nike”)",brands:"Marcas",products:"productos",pick:"elige una marca",allBrands:"← Todas las marcas",all:"Todo",none:"No encontramos productos. Prueba con otra palabra.",more:"Ver más",left:"restantes",no:"N.º de producto",for:"Para",cat:"Categoría",copy:"Copiar N.º de producto",copied:"¡Copiado!",moreOf:"Más de",noShort:"N.º",photo:"Búsqueda por foto",photoSub:"Productos más parecidos a tu foto",best:"Mejor coincidencia",loading:"Analizando foto…",exact:"Coincidencia exacta",similar:"Parecido"}};
+const GEN={Todos:"All",Hombre:"Men",Mujer:"Women",Unisex:"Unisex","Niños":"Kids"};
+const GRP={Todo:"All",Ropa:"Clothing",Calzado:"Shoes",Bolsas:"Bags",Relojes:"Watches",Lentes:"Sunglasses",Accesorios:"Accessories",Fragancias:"Fragrances",Jerseys:"Soccer Jerseys"};
+const TYP={"Playera":"T-Shirt","Playera manga larga":"Long Sleeve T-Shirt","Playera Polo":"Polo Shirt","Camisa":"Shirt","Sudadera":"Hoodie / Sweatshirt","Suéter":"Sweater","Chaleco":"Vest","Chamarra de plumas":"Down Jacket","Chamarra / Abrigo":"Jacket / Coat","Chamarra de piel":"Leather Jacket","Chamarra de mezclilla":"Denim Jacket","Pantalón":"Pants","Jeans":"Jeans","Shorts":"Shorts","Vestido":"Dress","Traje / Conjunto":"Tracksuit / Set","Ropa":"Clothing","Tenis":"Sneakers","Zapatos":"Shoes","Botas":"Boots","Botas de nieve":"Snow Boots","Sandalias":"Sandals / Slides","Tacones":"Heels","Mocasines":"Loafers","Bolsa":"Bag","Mochila":"Backpack","Cartera":"Wallet","Maleta":"Luggage","Reloj":"Watch","Lentes de sol":"Sunglasses","Gorra":"Cap","Gorro tejido":"Beanie","Sombrero pescador":"Bucket Hat","Guantes":"Gloves","Bufanda":"Scarf","Banda para cabello":"Headband","Cinturón":"Belt","Joyería":"Jewelry","Corbata":"Tie","Artículos para el hogar":"Home Goods","Fragancia":"Fragrance","Jersey de fútbol":"Soccer Jersey","Jersey retro":"Retro Jersey","Jersey manga larga":"Long Sleeve Jersey","Conjunto niño":"Kids Kit","Conjunto de entrenamiento":"Training Set","Chamarra / Rompevientos":"Windbreaker","Shorts de fútbol":"Soccer Shorts"};
+const BR={"Otras marcas":"Other brands","Premier League (Inglaterra)":"Premier League (England)","La Liga (España)":"La Liga (Spain)","Serie A (Italia)":"Serie A (Italy)","Bundesliga (Alemania)":"Bundesliga (Germany)","Ligue 1 (Francia)":"Ligue 1 (France)","Liga MX (México)":"Liga MX (Mexico)","Selecciones nacionales":"National Teams","Sudamérica (clubes)":"South American Clubs","Otras ligas de Europa":"Other European Leagues","Otros clubes":"Other Clubs","Liga Saudí":"Saudi Pro League","MLS / América":"MLS / Americas","Asia, África y otras ligas":"Asia, Africa & Other Leagues","NBA / otros deportes":"NBA / Other Sports"};
+const EXTRA_EN={"Tenis":"trainers shoes","Bolsa":"handbag purse tote crossbody","Sudadera":"hoodie sweatshirt","Chamarra de plumas":"puffer coat","Lentes de sol":"glasses shades","Gorra":"hat baseball","Fragancia":"perfume cologne"};
+const T=k=>UI[LANG][k],tg=g=>LANG=="en"?GEN[g]||g:g,tc=c=>LANG=="en"?GRP[c]||c:c,tt=t=>LANG=="en"?TYP[t]||t:t,tb=b=>LANG=="en"?BR[b]||b:b;
+const S={g:"Todos",cat:"Todo",brand:null,type:null,q:"",img:null,imgUrl:null};let limit=60;
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const enc=v=>"decodeURIComponent('"+encodeURIComponent(v).replace(/'/g,'%27')+"')";
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().trim();
+const items=C.items.map(r=>{const t=C.types[r[3]],c=C.typeGroup[t],b=C.brands[r[2]],g=G[r[4]];
+ return {s:C.stores[r[0]],id:r[1],b,t,c,g,x:r[5]+" "+norm([TYP[t]||"",GRP[c]||"",GEN[g]||"",BR[b]||"",EXTRA_EN[t]||""].join(" "))}});
+const cover=new Map;items.forEach(i=>{if(!cover.has(i.b))cover.set(i.b,i)});
+const okG=i=>S.g=="Todos"||i.g==S.g||(i.g=="Unisex"&&(S.g=="Hombre"||S.g=="Mujer"));
+function base(){const tk=norm(S.q).split(/\s+/).filter(Boolean);return items.filter(i=>okG(i)&&(S.cat=="Todo"||i.c==S.cat)&&tk.every(t=>i.x.includes(t)))}
+function count(arr,k){const m=new Map;arr.forEach(i=>m.set(i[k],(m.get(i[k])||0)+1));return m}
+const fmt=n=>n.toLocaleString(LANG=="en"?"en-US":"es-MX");
+function setLang(l){LANG=l;try{localStorage.setItem("lang",l)}catch(e){}document.documentElement.lang=l;render()}
+function render(){
+ $("#logo").textContent=T("logo");$("#q").placeholder=T("ph");document.title=LANG=="en"?"Catalog":"Catálogo";
+ $("#lang").innerHTML=["en","es"].map(l=>`<button class="${LANG==l?'on':''}" onclick="setLang('${l}')">${l.toUpperCase()}</button>`).join("");
+ $("#gender").innerHTML=["Todos","Hombre","Mujer","Niños"].map(g=>`<button class="${S.g==g?'on':''}" onclick="go({g:'${g}'})">${tg(g)}</button>`).join("");
+ const cc=count(items.filter(okG),"c");
+ $("#cats").innerHTML=["Todo",...C.groups].filter(c=>c=="Todo"||cc.get(c)).map(c=>`<button class="chip ${S.cat==c?'on':''}" onclick="go({cat:'${c}',brand:null,type:null})">${tc(c)}</button>`).join("");
+ let arr=base(),m=$("#main");
+ if(S.img){const sel=S.img.filter(r=>okG(items[r.i])&&(S.cat=="Todo"||items[r.i].c==S.cat)).slice(0,limit);
+  m.innerHTML=`<button class="back" onclick="go({img:null,imgUrl:null})">${T("allBrands")}</button><h1>${T("photo")}</h1><div class="qimg"><img src="${S.imgUrl}"><div class="sub" style="margin:0">${T("photoSub")}</div></div><div class="grid">`+sel.map(r=>{const i=items[r.i];return `<div class="card" onclick="show('${i.s}','${i.id}')">${r.d<=10?`<span class="match">${T("exact")}</span>`:""}<div class="ph"><img loading="lazy" src="img/${i.s}/${i.id}.webp"></div><div class="in"><div class="b">${esc(tb(i.b))}</div><div class="t">${esc(tt(i.t))}</div><div class="n">${T("noShort")} ${i.id} · ${tg(i.g)}</div></div></div>`}).join("")+"</div>"+(S.img.length>limit?`<button class="chip more" onclick="limit+=60;render()">${T("more")}</button>`:"");return}
+ if(!S.brand&&!S.q){const bc=count(arr,"b");const bs=[...bc.keys()].sort((a,b)=>a==OTHER?1:b==OTHER?-1:norm(tb(a)).localeCompare(norm(tb(b))));
+  let h=`<h1>${S.cat=="Todo"?T("brands"):esc(tc(S.cat))}</h1><div class="sub">${fmt(arr.length)} ${T("products")} · ${bs.length} ${T("brands").toLowerCase()} — ${T("pick")}</div>`,L="";
+  bs.forEach(b=>{const nm=tb(b),l=b==OTHER?"#":norm(nm)[0].toUpperCase();if(l!=L){if(L)h+="</div>";h+=`<div class="letter">${l}</div><div class="brands">`;L=l}
+   const lg=C.logos[b];
+   const wn=nm.replace(/\(.*\)/,"").trim(),wl=Math.max(5,...wn.split(/\s+/).map(w=>w.length));
+   h+=`<div class="brand${lg?'':' w'}" onclick="go({brand:${enc(b)},type:null})"><div class="logo-i">${lg?`<img class="${lg.keep?'keep':''}" loading="lazy" src="logos/${lg.f}" alt="${esc(nm)}">`:`<span class="wm" style="font-size:min(30px,calc(78cqw / ${wl}))">${esc(wn)}</span>`}</div><b>${esc(nm)}</b><span>${fmt(bc.get(b))} ${T("products")}</span></div>`});
+  m.innerHTML=h+"</div>";return}
+ if(S.brand)arr=arr.filter(i=>i.b==S.brand);const tcn=count(arr,"t");if(S.type)arr=arr.filter(i=>i.t==S.type);
+ let h=`<button class="back" onclick="go({brand:null,type:null,q:''});$('#q').value=''">${T("allBrands")}</button><h1>${esc(S.brand?tb(S.brand):'“'+S.q+'”')}</h1><div class="sub">${fmt(arr.length)} ${T("products")}</div>`;
+ h+=`<div class="types"><button class="chip ${!S.type?'on':''}" onclick="go({type:null})">${T("all")}<small>${[...tcn.values()].reduce((a,b)=>a+b,0)}</small></button>`+[...tcn].sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<button class="chip ${S.type==t?'on':''}" onclick="go({type:${enc(t)}})">${esc(tt(t))}<small>${n}</small></button>`).join("")+"</div>";
+ if(!arr.length)h+=`<div class="empty">${T("none")}</div>`;
+ h+=`<div class="grid">`+arr.slice(0,limit).map(i=>`<div class="card" onclick="show('${i.s}','${i.id}')"><div class="ph"><img loading="lazy" src="img/${i.s}/${i.id}.webp" alt="${esc(tb(i.b)+' '+tt(i.t))}"></div><div class="in"><div class="b">${esc(tb(i.b))}</div><div class="t">${esc(tt(i.t))}</div><div class="n">${T("noShort")} ${i.id} · ${tg(i.g)}</div></div></div>`).join("")+"</div>";
+ if(arr.length>limit)h+=`<button class="chip more" onclick="limit+=60;render()">${T("more")} (${fmt(arr.length-limit)} ${T("left")})</button>`;
+ m.innerHTML=h}
+function go(p){if(!("img" in p)&&(p.brand!==undefined||p.q!==undefined)){S.img=null}Object.assign(S,p);limit=60;render();scrollTo(0,0)}
+function show(s,id){const i=items.find(x=>x.s==s&&x.id==id),d=$("#dlg");
+ d.innerHTML=`<button class="x" onclick="dlg.close()">×</button><div class="dl"><img src="img/${s}/${id}.webp"><div class="info"><div class="sub" style="margin:0">${esc(tc(i.c))}</div><h2>${esc(tb(i.b))}</h2><div>${esc(tt(i.t))}</div><dl><dt>${T("no")}</dt><dd><b>${id}</b></dd><dt>${T("for")}</dt><dd>${tg(i.g)}</dd><dt>${T("cat")}</dt><dd>${esc(tc(i.c))}</dd></dl><button class="btn" onclick="navigator.clipboard.writeText('${id}');this.textContent=T('copied')">${T("copy")}</button> <button class="btn o" onclick="dlg.close();go({brand:${enc(i.b)},type:null,q:''});q.value=''">${T("moreOf")} ${esc(tb(i.b))}</button></div></div>`;d.showModal()}
+/* ---- photo search: perceptual fingerprints (must match phash.py) ---- */
+let FP=null;const N=32,DCT=new Float64Array(N*N);for(let u=0;u<N;u++)for(let x=0;x<N;x++)DCT[u*N+x]=Math.cos(Math.PI*(2*x+1)*u/(2*N));
+const POP=new Uint8Array(256);for(let i=0;i<256;i++){let c=0,v=i;while(v){c+=v&1;v>>=1}POP[i]=c}
+function px(img,w,h,sx,sy,sw,sh){const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.imageSmoothingQuality="high";x.drawImage(img,sx,sy,sw,sh,0,0,w,h);return x.getImageData(0,0,w,h).data}
+function fingerprint(img,sx,sy,sw,sh){const out=new Uint8Array(64);
+ let d=px(img,32,32,sx,sy,sw,sh),g=new Float64Array(1024);for(let i=0;i<1024;i++)g[i]=d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114;
+ const tmp=new Float64Array(1024),low=[];for(let u=0;u<8;u++)for(let x=0;x<N;x++){let s=0;for(let y=0;y<N;y++)s+=DCT[u*N+y]*g[y*N+x];tmp[u*N+x]=s}
+ for(let u=0;u<8;u++)for(let v=0;v<8;v++){let s=0;for(let x=0;x<N;x++)s+=tmp[u*N+x]*DCT[v*N+x];low.push(s)}
+ const srt=low.slice(1).sort((a,b)=>a-b),med=(srt[31]+srt[32])/2;
+ for(let i=0;i<64;i++)if(low[i]>med)out[i>>3]|=128>>(i&7);
+ d=px(img,9,8,sx,sy,sw,sh);const gb=[];for(let i=0;i<72;i++)gb.push(d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114);
+ let k=0;for(let r=0;r<8;r++)for(let c=0;c<8;c++,k++)if(gb[r*9+c]<gb[r*9+c+1])out[8+(k>>3)]|=128>>(k&7);
+ d=px(img,4,4,sx,sy,sw,sh);for(let i=0;i<16;i++)for(let j=0;j<3;j++)out[16+i*3+j]=d[i*4+j];return out}
+function dist(q,o){let h=0;for(let i=0;i<16;i++)h+=POP[q[i]^FP[o+i]];let c=0;for(let i=16;i<64;i++)c+=Math.abs(q[i]-FP[o+i]);return h+c/48/6}
+async function photoSearch(file){const url=URL.createObjectURL(file);$("#main").innerHTML=`<div class="empty">${T("loading")}</div>`;
+ if(!FP)FP=new Uint8Array(await (await fetch("fp.bin")).arrayBuffer());
+ const img=new Image();img.src=url;await img.decode();const W=img.naturalWidth,H=img.naturalHeight;
+ const qs=[fingerprint(img,0,0,W,H),fingerprint(img,W*.1,H*.1,W*.8,H*.8),fingerprint(img,W*.2,H*.2,W*.6,H*.6)];
+ const res=[];for(let i=0;i<items.length;i++){const o=i*64;let b=1e9;for(const q of qs){const v=dist(q,o);if(v<b)b=v}res.push({i,d:b})}
+ res.sort((a,b)=>a.d-b.d);go({img:res.slice(0,600),imgUrl:url,brand:null,q:""});$("#q").value=""}
+$("#pic").addEventListener("change",e=>{if(e.target.files[0])photoSearch(e.target.files[0]);e.target.value=""});
+let tm;$("#q").addEventListener("input",e=>{clearTimeout(tm);tm=setTimeout(()=>go({q:e.target.value,brand:null,type:null}),200)});
+$("#dlg").addEventListener("click",e=>{if(e.target.id=="dlg")e.target.close()});
+document.documentElement.lang=LANG;render();
+</script>
+</body>
+</html>
